@@ -21,7 +21,10 @@ DEFAULT_MAXRADIUS = 50
 def save_canvas(*args):
     file = fd.asksaveasfile(initialfile="image.eps", defaultextension=".eps", filetypes=[("Encapsulated PostScript File","*.eps")])
     image = C.postscript()
-    file.write(image)
+    try:
+        file.write(image)
+    except:
+        pass
 
 def create_circle(canvas, x, y, radius, color):
     x0 = x-radius
@@ -47,11 +50,17 @@ def draw_random_circle():
 
 def update_radius(*args):
     global maxradius
-    maxradius = int(maxradius_sv.get())
+    try:
+        maxradius = int(maxradius_sv.get())
+    except:
+        pass
 
 def update_delay(*args):
     global delay
-    delay = float(delay_sv.get())
+    try:
+        delay = float(delay_sv.get())
+    except:
+        pass 
     
 top = tkinter.Tk()
 top.title("Draw circles (double-click to save)")
