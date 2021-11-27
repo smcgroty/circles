@@ -15,7 +15,7 @@ import tkinter.filedialog as fd
 
 CANVAS_WIDTH = 1280
 CANVAS_HEIGHT = 1024
-DEFAULT_DELAY = 0.1
+DEFAULT_DELAY = 1
 DEFAULT_MAXRADIUS = 50
 
 def save_canvas(*args):
@@ -42,42 +42,31 @@ def draw_random_circle():
     color = random_color()
     x = random.randrange(0, CANVAS_WIDTH)
     y = random.randrange(0, CANVAS_HEIGHT)
-    radius = random.randrange(0, maxradius)
+    radius = random.randrange(0, int(maxradius.get()))
     create_circle(C,x,y,radius,color)
-
-def update_radius(*args):
-    global maxradius
-    maxradius = int(maxradius_sv.get())
-
-def update_delay(*args):
-    global delay
-    delay = float(delay_sv.get())
     
 top = tkinter.Tk()
 top.title("Draw circles (double-click to save)")
 
 maxradius_label = tkinter.Label(top, text="Max radius")
 maxradius_label.pack()
-maxradius_sv = tkinter.StringVar(top, DEFAULT_MAXRADIUS)
-maxradius_sv.trace('w', update_radius)
-maxradius_box = tkinter.Entry(top, bd=5, textvariable=maxradius_sv)
+maxradius = tkinter.StringVar(top, DEFAULT_MAXRADIUS)
+#radius.trace('w', update_radius)
+maxradius_box = tkinter.Entry(top, bd=5, textvariable=maxradius)
 maxradius_box.pack()
 
 delay_label = tkinter.Label(top, text="Delay seconds")
 delay_label.pack()
-delay_sv = tkinter.StringVar(top, DEFAULT_DELAY)
-delay_sv.trace('w', update_delay)
-delay_box = tkinter.Entry(top, bd=5, textvariable=delay_sv)
+delay = tkinter.StringVar(top, DEFAULT_DELAY)
+#delay.trace('w', update_delay)
+delay_box = tkinter.Entry(top, bd=5, textvariable=delay)
 delay_box.pack()
 
 C = tkinter.Canvas(top, bg="white", width=CANVAS_WIDTH, height=CANVAS_HEIGHT)
 C.pack()
 C.bind("<Double-1>", save_canvas)
 
-maxradius = DEFAULT_MAXRADIUS
-delay = DEFAULT_DELAY
-
 while True:
     draw_random_circle()
     top.update()
-    time.sleep(delay)
+    time.sleep(float(delay.get()))
